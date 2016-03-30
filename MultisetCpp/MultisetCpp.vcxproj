@@ -18,6 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="multiset.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{32C3F104-9DFD-4AEF-B0C3-AA4428708B1F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -145,8 +151,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
