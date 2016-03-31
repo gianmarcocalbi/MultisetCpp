@@ -76,16 +76,17 @@ private:
 			return *this;
 		}
 	};
+
 	node *head;
+	size_type objects_amount;
 	size_type nodes_amount;
-	size_type single_nodes_amount;
 
 public:
 
 	/**
 	 * Costruttore di default.
 	 */
-	multiset(void) : head(0), nodes_amount(0), single_nodes_amount(0) {
+	multiset(void) : head(0), objects_amount(0), nodes_amount(0) {
 		#ifndef NDEBUG
 		cout << "# multiset<T>::multiset(void)" << endl;
 		#endif
@@ -148,7 +149,6 @@ public:
 			} else {
 				t = t->next;
 			}
-
 		}
 		if (!found) {
 			//altrimenti aggiungi nodo
@@ -159,9 +159,9 @@ public:
 				head = new node(obj, tmp);
 				tmp->prev = head;
 			}
-			single_nodes_amount++;
+			nodes_amount++;
 		}
-		nodes_amount++;
+		objects_amount++;
 	}
 
 	/**
@@ -178,15 +178,15 @@ public:
 					node *n = tmp->next;
 					node *p = tmp->prev;
 					if (n != 0) {
-						n.prev = p;
+						n->prev = p;
 					}
 					if (p != 0) {
-						p.next = n;
+						p->next = n;
 					}
 					delete tmp;
-					single_nodes_amount--;
+					nodes_amount--;
 				}
-				nodes_amount--;
+				objects_amount--;
 				removed = true;
 				tmp = 0;
 			} else {
@@ -197,14 +197,85 @@ public:
 	}
 
 	/**
+	 * Numero elementi del multiset (contando i duplicati).
+	 */
+	size_type get_objects_amount() {
+		return objects_amount;
+	}
+
+	/**
+	 * Numero nodi nel multiset (numero di oggetti senza contare duplicati).
+	 */
+	size_type get_nodes_amount() {
+		return nodes_amount;
+	}
+
+	/**
+	 * Conta numero di occorrenze di un oggetto nel multiset.
+	 */
+	size_type object_count(T &obj) {
+		node *tmp = head;
+		size_type count = 0;
+		while (tmp != 0) {
+			if (obj == tmp->object) {
+				count = tmp->amount;
+				tmp = 0;
+			} else {
+				tmp = tmp->next;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Contains.
+	 *
+	 */
+	bool contains(T &obj) {
+		/*node *tmp = head;
+		bool found = false;
+		while (tmp != 0) {
+			if (obj == tmp->object) {
+				found = true;
+				tmp = 0;
+			} else {
+				tmp = tmp->next;
+			}
+		}
+		return found;*/
+		return object_count(obj) > 0;
+	}
+
+	bool &operator== (const multiset &other) {
+		bool equals = true;
+		if (objects_amount == other.get_objects_amount() && nodes_amount == other.get_nodes_amount()) {
+			node *tmp = head;
+			while (tmp != 0) {
+				if (object_count(tmp->object) != other.object_count(tmp->object)) {
+					equals = false;
+					tmp = 0;
+				} else {
+					tmp = tmp->next;
+				}
+			}
+		} else {
+			equals = false;
+		}
+		return equals;
+	}
+
+	//Forward Iterators
+
+	//DEBUG
+	/**
 	 * Print.
 	 */
 	void print() {
 		node *tmp = head;
 		while (tmp != 0) {
 			cout << "--------------------------" << endl;
-			cout << "-- object : " << tmp->object << "--" << endl;
-			cout << "-- amount : " << tmp->amount << "--" << endl;
+			cout << "-- object : " << tmp->object << " --" << endl;
+			cout << "-- amount : " << tmp->amount << " --" << endl;
 			cout << "--------------------------" << endl;
 			tmp = tmp->next;
 		}
