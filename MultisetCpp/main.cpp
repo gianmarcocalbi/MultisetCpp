@@ -29,6 +29,8 @@ int main() {
 	m3.add(5);
 	m3.add(5);
 	m3.add(6);
+	m3.remove(3);
+	m3.remove('c');
 	//m2.print();
 
 	//cout << (m1 == m2) << endl;
@@ -36,9 +38,25 @@ int main() {
 	multiset<int>::const_iterator it1 = m3.begin();
 
 	for (; it1 != m3.end(); ++it1) {
-		std::cout << *it1 << std::endl;
+		//std::cout << *it1 << std::endl;
 	}
 	
+	multiset<multiset<int>> mm;
+	mm.add(m1);
+	mm.add(m2);
+	mm.add(m3);
+	//mm.remove(m2);
+	//mm.remove(m2);
+
+	multiset<int> m4;
+
+	multiset<int>::const_iterator it2 = m4.begin();
+
+	for (; it2 != m4.end(); ++it1) {
+		//std::cout << *it2 << std::endl;
+	}
+
+	cout << mm << endl;
 
 	system("pause");
 	return 0;

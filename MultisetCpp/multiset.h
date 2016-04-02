@@ -7,7 +7,14 @@ using namespace std;
 
 /*
 TODO
-- cavare i previuos
+- cavare i *prev
+- implementare operator<<
+- Elementi devono essere immutabili
+
+- test vari
+- commenti e doc
+- relazione
+- test valgrind
 */
 
 template <typename T>
@@ -127,9 +134,9 @@ public:
 	multiset(const multiset &other) : head(0), objects_amount(0), nodes_amount(0) {
 		node *tmp = other.head;
 		try {
-			while (temp != 0) {
-				add(temp->object, temp->amount);
-				temp = temp->next;
+			while (tmp != 0) {
+				add(tmp->object, tmp->amount);
+				tmp = tmp->next;
 			}
 		} catch (...) {
 			clear();
@@ -177,9 +184,11 @@ public:
 		add(obj, 1);
 	}
 
+private:
+
 	/**
 	* Add overload.
-	* Operazione di aggiunta elemento.
+	* Operazione di aggiunta elemento multiplo privata.
 	*/
 	void add(const T &obj, size_type n) {
 		node *t = head;
@@ -209,6 +218,8 @@ public:
 		}
 		objects_amount += n;
 	}
+
+public:
 
 	/**
 	 * Remove.
@@ -358,10 +369,32 @@ public:
 	}
 
 	/**
-	 * Operatore ==.
-	 *
-	 */
+	* Operatore ==.
+	*
+	*/
 	bool &operator== (const multiset &other) {
+		bool equals = true;
+		if (objects_amount == other.get_objects_amount() && nodes_amount == other.get_nodes_amount()) {
+			node *tmp = head;
+			while (tmp != 0) {
+				if (object_count(tmp->object) != other.object_count(tmp->object)) {
+					equals = false;
+					tmp = 0;
+				} else {
+					tmp = tmp->next;
+				}
+			}
+		} else {
+			equals = false;
+		}
+		return equals;
+	}
+
+	/**
+	* Operatore ==.
+	*
+	*/
+	bool &operator== (const multiset &other) const {
 		bool equals = true;
 		if (objects_amount == other.get_objects_amount() && nodes_amount == other.get_nodes_amount()) {
 			node *tmp = head;
@@ -411,7 +444,7 @@ public:
 		/**
 		* Operatore Assegnamento.
 		*/
-		const_iterator& operator= (const const_iterator &other){
+		const_iterator& operator= (const const_iterator &other) {
 			curr = other.curr;
 			n = other.n;
 			return *this;
@@ -456,7 +489,7 @@ public:
 		 * @return l'iteratore alla pair successiva
 		 */
 		const_iterator& operator++() {
-			if (n == curr->amount-1) {
+			if (n == curr->amount - 1) {
 				curr = curr->next;
 				n = 0;
 			} else {
@@ -500,6 +533,8 @@ public:
 		return const_iterator(0);
 	}
 
+
+
 	//DEBUG
 	/**
 	 * Print.
@@ -516,4 +551,24 @@ public:
 	}
 
 };
+
+template <typename T>
+std::ostream & operator<<(std::ostream &os, const multiset<T> &ms) {
+	multiset<T>::const_iterator it = ms.begin();
+	const T *curr = 0;
+	unsigned int x = 1;
+	os << "{";
+	for (; it != ms.end(); ++it) {
+		if (curr != &(*it)) {
+			os << "<" << *it << ", " << ms.object_count(*it) << ">";
+			if (x < ms.get_nodes_amount()) {
+				os << ", ";
+			}
+			++x;
+		}
+		curr = &(*it);
+	}
+	os << "}";
+	return os;
+}
 #endif
