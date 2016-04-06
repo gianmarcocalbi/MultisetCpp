@@ -9,11 +9,11 @@ TODO
 [V] - cavare i *prev
 [V] - implementare operator<<
 [V] - Elementi devono essere immutabili
+[V] - commenti
+[V] - constcorrectness
 
 - eccezioni
-- constcorrectness
 - test vari in main.cpp
-[V] - commenti
 - rimuovere parti di codice commentate e commenti di debug
 - aggiungere #IFNDEBUG etc..
 - doc
@@ -141,8 +141,10 @@ public:
 		clear();
 	}
 
+private:
+
 	/**
-		Funzione di deallocazione struttura dati di nodi.
+		Funzione di deallocazione struttura dati di nodi per utilizzo privato.
 		Passo in rassegna nodo per nodo (seguendo la struttura dati partendo dalla testa) e lo elimino.
 	*/
 	void clear() {
@@ -155,6 +157,8 @@ public:
 			t1 = t2;
 		}
 	}
+
+public:
 
 	/**
 		Copy Constructor.
@@ -228,7 +232,7 @@ private:
 		node *t = head;
 		bool found = false;
 		while (t != 0) {
-			if (t->object == obj) {
+			if (t->object == obj) { //(!) Eccezione: Uguaglianza fra oggetti complessi non esiste
 				//se l'elemento è già presente allora aumentane la quantità di n
 				found = true;
 				t->amount += n;
@@ -240,11 +244,11 @@ private:
 		if (!found) {
 			//altrimenti aggiungi nodo
 			if (head == 0) {
-				head = new node(obj);
+				head = new node(obj); //(!) Eccezione su new
 				head->amount = n;
 			} else {
 				node *tmp = head;
-				head = new node(obj, tmp);
+				head = new node(obj, tmp); //(!) Eccezione su new
 				head->amount = n;
 			}
 			nodes_amount++;
@@ -266,7 +270,7 @@ public:
 		node *curr = head;
 		node *prev = 0;
 		while (curr != 0) {
-			if (curr->object == obj) {
+			if (curr->object == obj) { //(!) Eccezione uguaglianza
 				if (curr->amount > 1) {
 					curr->amount--;
 				} else {
@@ -276,6 +280,8 @@ public:
 					}*/
 					if (prev != 0) {
 						prev->next = next;
+					} else {
+						head = next;
 					}
 					delete curr;
 					nodes_amount--;
@@ -349,11 +355,11 @@ public:
 		@param obj Elemento di cui contare le occorrenze.
 		@return count Numero di occorrenze.
 	*/
-	size_type object_count(T &obj) const {
+	/*size_type object_count(T &obj) const {
 		node *tmp = head;
 		size_type count = 0;
 		while (tmp != 0) {
-			if (obj == tmp->object) {
+			if (obj == tmp->object) { //(!) Eccezione uguaglianza
 				count = tmp->amount;
 				tmp = 0;
 			} else {
@@ -361,7 +367,7 @@ public:
 			}
 		}
 		return count;
-	}
+	}*/
 
 	/**
 		Operazione object_count.
@@ -393,7 +399,7 @@ public:
 		node *tmp = head;
 		size_type count = 0;
 		while (tmp != 0) {
-			if (obj == tmp->object) {
+			if (obj == tmp->object) { //(!) Eccezione uguaglianza
 				count = tmp->amount;
 				tmp = 0;
 			} else {
@@ -408,7 +414,7 @@ public:
 		@param obj Elemento di cui controllare la presenza nel multiset.
 		@return bool True se l'elemento è presente, false altrimenti.
 	*/
-	bool contains(T &obj) const {
+	bool contains(const T &obj) const {
 		/*node *tmp = head;
 		bool found = false;
 		while (tmp != 0) {
@@ -476,7 +482,7 @@ public:
 		@return bool True se i due multiset sono diversi, false altrimenti.
 	*/
 	bool operator!= (const multiset &other) const {
-		return !(this == &other);
+		return !(*this == other);
 	}
 
 	/**
@@ -625,7 +631,7 @@ std::ostream & operator<<(std::ostream &os, const multiset<T> &ms) {
 	os << "{";
 	for (; it != ms.end(); ++it) {
 		if (curr != &(*it)) {
-			os << "<" << *it << ", " << ms.object_count(*it) << ">";
+			os << "<" << *it << ", " << ms.object_count(*it) << ">"; //(!) Eccezione: Operatore "<<" per un certo oggetto non è specificata.
 			if (x < ms.get_nodes_amount()) {
 				os << ", ";
 			}

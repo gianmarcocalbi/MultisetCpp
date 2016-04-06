@@ -1,26 +1,88 @@
 #include "multiset.h"
 #include <stdlib.h>
+
 int main() {
-	multiset<int> m1 = multiset<int>();
-	m1.add(2);
-	m1.add(2);
-	m1.add(2);
-	m1.add(199);
-	m1.remove(2);
-	m1.add(3);
-	m1.remove(199);
-	//m1.print();
+	
+	multiset<int> m_int_1;///< Test Costruttore tipo base.
+	
+	m_int_1.add(2);///< Test Add nuovo elemento di tipo semplice.
+	m_int_1.add(2);///< Test Add elemento già esistente di tipo semplice.
+	m_int_1.add(2);
+	m_int_1.add(199);
+	m_int_1.remove(2);///< Test remove elemento presente nel multiset.
+	m_int_1.add(3);///< Test remove elemento non presente nel multiset.
+	m_int_1.remove(199);///< Test rimozione completa elemento.
 
-	multiset<int> m2 = multiset<int>();
-	m2.add(2);
-	m2.add(2);
-	m2.add(2);
-	m2.add(199);
-	m2.remove(2);
-	m2.add(3);
-	m2.remove(199);
-	//m2.print();
+	multiset<int> m_int_1_copy(m_int_1);///<Test copy constructor tipo base.
 
+	std::cout << m_int_1 << std::endl << m_int_1_copy << std::endl;
+
+	///< Test operatore di confronto == tra multiset tipo base.
+	std::cout << "m_int_1 == m_int_1_copy(m_int_1) : true -> " << (m_int_1 == m_int_1_copy) << std::endl;
+	std::cout << "m_int_1 != m_int_1_copy(m_int_1) : false -> " << (m_int_1 != m_int_1_copy) << std::endl;
+
+	multiset<int> m_int_2 = m_int_1_copy; ///< Test operatore assegnamento.
+	m_int_2.remove(2); ///< Test rimozione elemento da multiset vuoto.
+
+	m_int_1_copy.remove(2);
+	std::cout << m_int_1 << std::endl << m_int_1_copy << std::endl;
+
+	///< Test operatore di confronto != tra multiset di tipo base.
+	std::cout << "m_int_1 != m_int_1_copy(m_int_1) : true -> " << (m_int_1 != m_int_1_copy) << std::endl;
+	
+	///< Test costruttore tipo base char.
+	multiset<char> m_char_1;
+	m_char_1.add('?');
+	m_char_1.add('a');
+	m_char_1.add('?');
+	m_char_1.add('m');
+	m_char_1.add('a');
+
+	///< Test operatore << di multiset di tipo base.
+	std::cout << m_char_1 << std::endl;
+
+	std::cout << "m_char_1.contains('?') : true -> " << m_char_1.contains('?') << std::endl;
+	std::cout << "m_char_1.object_count('a') : 2 -> " << m_char_1.object_count('a') << std::endl;
+
+	m_char_1.remove('?');
+	m_char_1.remove('a');
+	m_char_1.remove('?');
+	m_char_1.remove('m');
+	m_char_1.remove('a');
+	m_char_1.remove('?');
+	m_char_1.remove('a');
+	m_char_1.remove('?');
+	m_char_1.remove('m');
+	m_char_1.remove('a');
+
+	multiset<char> m_char_2;
+
+	///< Test confronto multiset vuoti di tipo base.
+	std::cout << "m_char_2 == m_char_1 : true -> " << (m_char_2 == m_char_1) << std::endl;
+
+	m_char_2.remove('a');
+
+	std::cout << "m_int_1.get_objects_amount() : 3 -> " << m_int_1.get_objects_amount() << std::endl;
+	std::cout << "m_int_1.object_count(2) : 2 -> " << m_int_1.object_count(2) << std::endl;
+	std::cout << "m_int_1.object_count(999) : 0 -> " << m_int_1.object_count(999) << std::endl;
+	std::cout << "m_int_2.contains(3) : true -> " << m_int_2.contains(3) << std::endl;
+	std::cout << "m_char_2.contains('0') : false -> " << m_char_2.contains('0') << std::endl;
+	std::cout << "m_char_2.object_count('d') : 0 -> " << m_char_2.contains('d') << std::endl;
+	
+	multiset<double> m_double_1;
+	multiset<double> m_double_2;
+
+	multiset<int> m_int_3;
+	std::cout << "m_double_1 == m_double_2 : true -> " << (m_double_1 == m_double_2) << std::endl;
+	std::cout << "m_double_1 != m_double_2 : false -> " << (m_double_1 != m_double_2) << std::endl;
+	std::cout << "m_double_1 == m_double_1 : true -> " << (m_double_1 == m_double_1) << std::endl;
+	std::cout << "m_double_1 != m_double_1 : false -> " << (m_double_1 != m_double_1) << std::endl;
+	std::cout << "m_int_1 == m_int_3 : false -> " << (m_int_1 == m_int_3) << std::endl;
+
+
+
+
+	/*
 	multiset<int> m3 = multiset<int>();
 	m3.add(3);
 	m3.add(3);
@@ -36,14 +98,14 @@ int main() {
 	//m2.print();
 
 	//cout << (m1 == m2) << endl;
-	
+
 	multiset<int>::const_iterator it1 = m3.begin();
 
 	for (; it1 != m3.end(); ++it1) {
-		std::cout << *it1 << std::endl;
+	std::cout << *it1 << std::endl;
 	}
 	std::cout << m3 << std::endl;
-	
+
 	multiset<multiset<int>> mm;
 	mm.add(m1);
 	mm.add(m2);
@@ -58,7 +120,7 @@ int main() {
 	multiset<int>::const_iterator it2 = m3.begin();
 
 	for (; it2 != m3.end(); ++it2) {
-		std::cout << *it2 << std::endl;
+	std::cout << *it2 << std::endl;
 	}
 
 	std::cout << mm << std::endl;
@@ -69,7 +131,7 @@ int main() {
 	mss.add("hi");
 	mss.add("ciao");
 	mss.add("hello");
-	
+
 	multiset<int> m5;
 	m5.add(1);
 	multiset<int> m6;
@@ -79,7 +141,44 @@ int main() {
 	//m6 = m5;
 
 	//std::cout << mss;
-
+	*/
 	system("pause");
 	return 0;
 }
+
+/*
+	#Test
+
+	Costruttore
+	Copy Constructor
+	Creazione per Assegnamento
+	Add
+	Remove
+	Remove elementi non esistenti
+	Remove multiset vuoto
+	object_count elemento esistente
+	object_count elemento non esistente
+	object_count multiset vuoto
+	contains x3 (== object_count)
+	operatore == {
+	ms == ms
+	ms vuoto == ms
+	ms == ms vuoto
+	ms vuoto == ms vuoto
+	}
+	operatore != x4
+	iteratori {
+	costruttore
+	copy constructor
+	operatore assegnaemento
+	*
+	->
+	++(int)
+	++
+	==
+	!=
+	iterazioni
+	}
+	operazione <<
+*/
+
