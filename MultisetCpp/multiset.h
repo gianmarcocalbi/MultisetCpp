@@ -12,6 +12,7 @@ TODO
 [V] - commenti
 [V] - constcorrectness
 
+- sistemare la formattazione dell'output di main.cpp
 - eccezioni
 - test vari in main.cpp
 - rimuovere parti di codice commentate e commenti di debug
@@ -55,7 +56,7 @@ private:
 			@param amou Quantità dell'elemento.
 			@param n	Puntatore al nodo successivo.
 		*/
-		node(const T obj, size_type amou, node *n) : object(obj), amount(amou), next(n) { }
+		node(const T &obj, size_type amou, node *n) : object(obj), amount(amou), next(n) { }
 
 		/**
 			Overload Costruttore Primario.
@@ -63,7 +64,7 @@ private:
 			@param obj Elemento di tipo T.
 			@param amou Quantità dell'Elemento.
 		*/
-		node(const T obj, size_type amou) : object(obj), amount(amou), next(0) { }
+		node(const T &obj, size_type amou) : object(obj), amount(amou), next(0) { }
 
 		/**
 			Overload Costruttore Primario.
@@ -71,7 +72,7 @@ private:
 			La quantità non specificata viene messa di default a 1.
 			@param obj Elemento di tipo T.
 		*/
-		node(const T obj) : object(obj), amount(1), next(0) { }
+		node(const T &obj) : object(obj), amount(1), next(0) { }
 
 		/**
 			Overload Costruttore Primario.
@@ -79,7 +80,7 @@ private:
 			@param obj Elemento di tipo T.
 			@param n	Puntatore al nodo successivo.
 		*/
-		node(const T obj, node *n) : object(obj), amount(1), next(n) { }
+		node(const T &obj, node *n) : object(obj), amount(1), next(n) { }
 
 
 		/**

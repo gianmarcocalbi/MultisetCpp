@@ -1,5 +1,6 @@
 #include "multiset.h"
 #include <stdlib.h>
+#include <string>
 
 int main() {
 	
@@ -121,15 +122,51 @@ int main() {
 	std::cout << "}" << std::endl << m_char_1 << std::endl;
 
 	///< Test tipi complessi.
-	/*multiset<char[]> m_array_char_1;
-	multiset<char[]> m_array_char_2;
+	/*multiset<int[6]> m_array_int_1;
+	multiset<char[6]> m_array_char_1;
+	multiset<char[6]> m_array_char_2;
+	
+	std::cout << "m_array_char_1 == m_array_char_2 : true -> " << (m_array_char_1 == m_array_char_2) << std::endl;
+	
+	char tmp1[] = "paolo";
+	char tmp2[] = "marco";
+	char tmp3[] = "giuda";*/
+	multiset<std::string> m_string_1;
+	multiset<std::string> m_string_2;
+	m_string_1.add("luca");
+	m_string_1.add("luca");
+	m_string_1.add("matteo");
+	m_string_1.add("luca");
+	m_string_1.add("giovanni");
+	m_string_1.add("giovanni");
+	m_string_1.add("giovanni");
 
-	multiset<char[]> m_array_char_3(m_array_char_1);*/
+	std::cout << "m_string_1 != m_string_2 : true -> " << (m_string_1 != m_string_2) << std::endl;
 
+	multiset<std::string> m_string_3(m_string_1);
 
+	std::cout << "m_string_1 == m_string_3(m_string_1) : true -> " << (m_string_1 == m_string_3) << std::endl;
 
+	std::cout << m_string_3 << std::endl;
 
+	std::cout << "m_string_1.get_objects_amount() : 7 -> " << m_string_1.get_objects_amount() << std::endl;
+	std::cout << "m_string_1.object_count(giovanni) : 3 -> " << m_string_1.object_count("giovanni") << std::endl;
+	std::cout << "m_string_1.object_count(marco) : 0 -> " << m_string_1.object_count("marco") << std::endl;
+	std::cout << "m_string_1.contains(luca) : true -> " << m_string_1.contains("luca") << std::endl;
+	std::cout << "m_string_1.contains(marco) : false -> " << m_string_1.contains("marco") << std::endl;
 
+	m_string_3.remove("luca");
+	m_string_3.remove("luca");
+	m_string_3.remove("luca");
+	m_string_3.remove("luca");
+	m_string_3.remove("luca");
+	m_string_3.remove("luca");
+	m_string_3.remove("luca");
+	m_string_3.remove("luca");
+	m_string_3.remove("luca");
+	m_string_3.remove("luca");
+
+	std::cout << "m_string_3.get_objects_amount() : 4 -> " << m_string_3.get_objects_amount() << std::endl;
 	/*
 	multiset<int> m3 = multiset<int>();
 	m3.add(3);
