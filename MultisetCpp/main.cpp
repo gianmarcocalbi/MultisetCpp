@@ -73,11 +73,59 @@ int main() {
 	multiset<double> m_double_2;
 
 	multiset<int> m_int_3;
+	///< Altri test su operatori di confronto.
 	std::cout << "m_double_1 == m_double_2 : true -> " << (m_double_1 == m_double_2) << std::endl;
 	std::cout << "m_double_1 != m_double_2 : false -> " << (m_double_1 != m_double_2) << std::endl;
 	std::cout << "m_double_1 == m_double_1 : true -> " << (m_double_1 == m_double_1) << std::endl;
 	std::cout << "m_double_1 != m_double_1 : false -> " << (m_double_1 != m_double_1) << std::endl;
 	std::cout << "m_int_1 == m_int_3 : false -> " << (m_int_1 == m_int_3) << std::endl;
+
+	m_char_1.add('a');
+	m_char_1.add('?');
+	m_char_1.add('#');
+	m_char_1.add('#');
+	m_char_1.add('#');
+	m_char_1.add('#');
+	m_char_1.add('?');
+	m_char_1.add('#');
+	m_char_1.add('?');
+	m_char_1.add('#');
+
+	///< Test su iteratori per multiset di tipo base.
+	multiset<int>::const_iterator m_int_1_it1 = m_int_1.begin(); ///< Test costruttore iteratore.
+	multiset<int>::const_iterator m_int_1_it2(m_int_1.begin()); ///< Test copy constructor iteratore.
+	std::cout << "m_int_1_it1 == m_int_1_it2 : true -> " << (m_int_1_it1 == m_int_1_it2) << std::endl; ///< Test 1 confronto di uguaglianza tra iteratori.
+	m_int_1_it1++;
+	std::cout << "m_int_1_it1 == m_int_1_it2 : false -> " << (m_int_1_it1 == m_int_1_it2) << std::endl; ///< Test 2 confronto di uguaglianza tra iteratori.
+	m_int_1_it2++;
+	std::cout << "m_int_1_it1 == m_int_1_it2 : true -> " << (m_int_1_it1 == m_int_1_it2) << std::endl; ///< Test 3 confronto di uguaglianza tra iteratori.
+	m_int_1_it1 = m_int_1.begin();
+	///< Test stampa con iteratore.
+	std::cout << "Iteratore di m_int_1 : {";
+	for (; m_int_1_it1 != m_int_1.end(); ++m_int_1_it1) {
+		std::cout << " " << *m_int_1_it1 << " ";
+	}
+	std::cout << "}" << std::endl;
+
+	multiset<char>::const_iterator m_char_1_it1 = m_char_1.begin();
+	multiset<char>::const_iterator m_char_1_it2 = m_char_1_it1; ///< Test copia per assegnamento.
+	std::cout << "Iteratore1 di m_char_1 : {";
+	for (; m_char_1_it1 != m_char_1.end(); ++m_char_1_it1) {
+		std::cout << " " << *m_char_1_it1 << " ";
+	}
+	std::cout << "}" << std::endl;
+	std::cout << "Iteratore2 copia di m_char_1 : {";
+	for (; m_char_1_it2 != m_char_1.end(); m_char_1_it2++) {
+		std::cout << " " << *m_char_1_it2 << " ";
+	}
+	std::cout << "}" << std::endl << m_char_1 << std::endl;
+
+	///< Test tipi complessi.
+	/*multiset<char[]> m_array_char_1;
+	multiset<char[]> m_array_char_2;
+
+	multiset<char[]> m_array_char_3(m_array_char_1);*/
+
 
 
 

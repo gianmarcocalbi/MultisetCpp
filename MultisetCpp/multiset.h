@@ -34,7 +34,7 @@ public:
 
 private:
 	/**
-		Struct node - Struttra a nodi.
+		Struct node - Struttura a nodi.
 		Struct che rappresenta un nodo di una struttura dati a mo' di lista ovvero le cui peculiarità sono la dimesnione variabile e la dinamicità.
 		I dati di riferimento sono l'elemento di tipo T e la quantità in cui esso è presente le multiset.
 	*/
@@ -586,7 +586,7 @@ public:
 			@return bool True se i due iteratori puntano alla stessa posizione, false altrimenti.
 		*/
 		bool operator==(const const_iterator &other) const {
-			return curr == other.curr && n == n.other;
+			return curr == other.curr && n == other.n;
 		}
 
 		/**
