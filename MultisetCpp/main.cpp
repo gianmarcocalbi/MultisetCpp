@@ -5,7 +5,7 @@
 int main() {
 
 	multiset<int> m_int_1;///< Test Costruttore tipo base.
-	
+
 	m_int_1.add(2);///< Test Add nuovo elemento di tipo semplice.
 	m_int_1.add(2);///< Test Add elemento già esistente di tipo semplice.
 	m_int_1.add(2);
@@ -30,7 +30,7 @@ int main() {
 
 	///< Test operatore di confronto != tra multiset di tipo base.
 	std::cout << "m_int_1 != m_int_1_copy(m_int_1) : true -> " << (m_int_1 != m_int_1_copy) << std::endl;
-	
+
 	///< Test costruttore tipo base char.
 	multiset<char> m_char_1;
 	m_char_1.add('?');
@@ -69,7 +69,7 @@ int main() {
 	std::cout << "m_int_2.contains(3) : true -> " << m_int_2.contains(3) << std::endl;
 	std::cout << "m_char_2.contains('0') : false -> " << m_char_2.contains('0') << std::endl;
 	std::cout << "m_char_2.object_count('d') : 0 -> " << m_char_2.contains('d') << std::endl;
-	
+
 	multiset<double> m_double_1;
 	multiset<double> m_double_2;
 
@@ -183,7 +183,7 @@ int main() {
 	std::cout << "}" << std::endl << m_string_2 << std::endl;
 
 	///< Test multiset di multiset
-	multiset<multiset<std::string>> mm_string;
+	multiset<multiset<std::string> > mm_string;
 	mm_string.add(m_string_3);
 	mm_string.add(m_string_3);
 	mm_string.add(m_string_2);

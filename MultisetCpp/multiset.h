@@ -4,31 +4,10 @@
 #include <stdexcept>
 #include <assert.h>
 
-/*
-TODO
-[V] - cavare i *prev
-[V] - implementare operator<<
-[V] - Elementi devono essere immutabili
-[V] - commenti
-[V] - constcorrectness
-[V] - aggiungere #IFNDEBUG etc..
-[V] - test vari in main.cpp
-[?] - sistemare la formattazione dell'output di main.cpp
-[V] - eccezioni
-[V] - rimuovere parti di codice commentate e commenti di debug
-[V] - commenti @doc
-
-@after all
-- doc
-- relazione
-- test valgrind
-*/
-
-
 /**
-	Classe Multiset.
-	Classe che implementa un MultiSet di elementi generici T.
-	Un MultiSet è come un insieme di dati che può contenere duplicati.
+Classe Multiset.
+Classe che implementa un MultiSet di elementi generici T.
+Un MultiSet è come un insieme di dati che può contenere duplicati.
 */
 template <typename T>
 class multiset {
@@ -37,9 +16,9 @@ public:
 
 private:
 	/**
-		Struct node - Struttura a nodi.
-		Struct che rappresenta un nodo di una struttura dati a mo' di lista ovvero le cui peculiarità sono la dimesnione variabile e la dinamicità.
-		I dati di riferimento sono l'elemento di tipo T e la quantità in cui esso è presente le multiset.
+	Struct node - Struttura a nodi.
+	Struct che rappresenta un nodo di una struttura dati a mo' di lista ovvero le cui peculiarità sono la dimesnione variabile e la dinamicità.
+	I dati di riferimento sono l'elemento di tipo T e la quantità in cui esso è presente le multiset.
 	*/
 	struct node {
 		T object;			///< Elemento di tipo T presente nel multiset.
@@ -47,59 +26,59 @@ private:
 		node *next;			///< Puntatore al nodo successivo a quello attuale (permette la realizzazione di una lista monodirezionale).
 
 		/**
-			Costruttore default.
+		Costruttore default.
 		*/
 		node() : amount(0), next(0) { }
 
 		/**
-			Costruttore Primario.
-			Tutti i parametri del nodo vengono passati esplicitamente.
-			@param obj	Elemento di tipo T.
-			@param amou Quantità dell'elemento.
-			@param n	Puntatore al nodo successivo.
+		Costruttore Primario.
+		Tutti i parametri del nodo vengono passati esplicitamente.
+		@param obj	Elemento di tipo T.
+		@param amou Quantità dell'elemento.
+		@param n	Puntatore al nodo successivo.
 		*/
 		node(const T &obj, size_type amou, node *n) : object(obj), amount(amou), next(n) { }
 
 		/**
-			Overload Costruttore Primario.
-			Il nodo successivo non viene specificato (usato solitamente per creare la testa della struttura dati).
-			@param obj	Elemento di tipo T.
-			@param amou Quantità dell'Elemento.
+		Overload Costruttore Primario.
+		Il nodo successivo non viene specificato (usato solitamente per creare la testa della struttura dati).
+		@param obj	Elemento di tipo T.
+		@param amou Quantità dell'Elemento.
 		*/
 		node(const T &obj, size_type amou) : object(obj), amount(amou), next(0) { }
 
 		/**
-			Overload Costruttore Primario.
-			Il nodo successivo non viene specificato (usato solitamente per creare la testa della struttura dati).
-			La quantità non specificata viene messa di default a 1.
-			@param obj Elemento di tipo T.
+		Overload Costruttore Primario.
+		Il nodo successivo non viene specificato (usato solitamente per creare la testa della struttura dati).
+		La quantità non specificata viene messa di default a 1.
+		@param obj Elemento di tipo T.
 		*/
 		node(const T &obj) : object(obj), amount(1), next(0) { }
 
 		/**
-			Overload Costruttore Primario.
-			La quantità non specificata viene messa di default a 1.
-			@param obj	Elemento di tipo T.
-			@param n	Puntatore al nodo successivo.
+		Overload Costruttore Primario.
+		La quantità non specificata viene messa di default a 1.
+		@param obj	Elemento di tipo T.
+		@param n	Puntatore al nodo successivo.
 		*/
 		node(const T &obj, node *n) : object(obj), amount(1), next(n) { }
 
 
 		/**
-			Copy constructor.
-			@param other Nodo da copiare.
+		Copy constructor.
+		@param other Nodo da copiare.
 		*/
 		node(const node &other) : object(other.object), amount(other.amount), next(other.next) { }
 
 		/**
-			Distruttore.
+		Distruttore.
 		*/
 		~node() { }
 
 		/**
-			Operatore "=" di assegnamento.
-			@param	other	Nodo da cui copiare i dati.
-			@return this	Puntatore al nodo attuale.
+		Operatore "=" di assegnamento.
+		@param	other	Nodo da cui copiare i dati.
+		@return this	Puntatore al nodo attuale.
 		*/
 		node &operator=(const node &other) {
 			if (this != &other) {
@@ -118,7 +97,7 @@ private:
 public:
 
 	/**
-		Costruttore di default.
+	Costruttore di default.
 	*/
 	multiset(void) : head(0), objects_amount(0), nodes_amount(0) {
 		#ifndef NDEBUG
@@ -127,8 +106,8 @@ public:
 	}
 
 	/**
-		Distruttore.
-		Deallocazione della struttura dati di nodi utilizzando una funziona di appoggio clear().
+	Distruttore.
+	Deallocazione della struttura dati di nodi utilizzando una funziona di appoggio clear().
 	*/
 	~multiset() {
 		#ifndef NDEBUG
@@ -140,8 +119,8 @@ public:
 private:
 
 	/**
-		Funzione di deallocazione struttura dati di nodi per utilizzo privato.
-		Passo in rassegna nodo per nodo (seguendo la struttura dati partendo dalla testa) e lo elimino dalla memoria.
+	Funzione di deallocazione struttura dati di nodi per utilizzo privato.
+	Passo in rassegna nodo per nodo (seguendo la struttura dati partendo dalla testa) e lo elimino dalla memoria.
 	*/
 	void clear() {
 		node *t1 = head;
@@ -157,8 +136,8 @@ private:
 public:
 
 	/**
-		Copy Constructor.
-		@param other Multiset da copiare.
+	Copy Constructor.
+	@param other Multiset da copiare.
 	*/
 	multiset(const multiset &other) : head(0), objects_amount(0), nodes_amount(0) {
 		#ifndef NDEBUG
@@ -177,9 +156,9 @@ public:
 	}
 
 	/**
-		Operatore Assegnamento.
-		@param	other	Multiset da cui copiare i dati.
-		@return this	Puntatore al multiset attuale.
+	Operatore Assegnamento.
+	@param	other	Multiset da cui copiare i dati.
+	@return this	Puntatore al multiset attuale.
 	*/
 	multiset &operator=(const multiset &other) {
 		#ifndef NDEBUG
@@ -195,9 +174,9 @@ public:
 	}
 
 	/**
-		Overload dell'operazione add per utilizzo pubblico.
-		Aggiunge l'elemento passato come parametro al multiset.
-		@param obj Elemento da aggiungere al multiset.
+	Overload dell'operazione add per utilizzo pubblico.
+	Aggiunge l'elemento passato come parametro al multiset.
+	@param obj Elemento da aggiungere al multiset.
 	*/
 	void add(const T &obj) {
 		add(obj, 1);
@@ -206,10 +185,10 @@ public:
 private:
 
 	/**
-		Operazione Add per utilizzo privato.
-		Operazione di aggiunta di una quantità positiva di elementi.
-		@param obj	Elemento da aggiungere al multiset.
-		@param n	Quantità da aggiungere dell'elemento obj.
+	Operazione Add per utilizzo privato.
+	Operazione di aggiunta di una quantità positiva di elementi.
+	@param obj	Elemento da aggiungere al multiset.
+	@param n	Quantità da aggiungere dell'elemento obj.
 	*/
 	void add(const T &obj, size_type n) {
 		#ifndef NDEBUG
@@ -255,11 +234,11 @@ private:
 public:
 
 	/**
-		Operazione remove.
-		Rimuove un elemento dal multiset.
-		Se sono presenti più elementi uguali ne rimuove uno (decrementa la quantità di quell'elemento).
-		@param	obj		Elemento da rimuovere.
-		@return removed True se l'elemento è stato rimosso, False altrimenti.
+	Operazione remove.
+	Rimuove un elemento dal multiset.
+	Se sono presenti più elementi uguali ne rimuove uno (decrementa la quantità di quell'elemento).
+	@param	obj		Elemento da rimuovere.
+	@return removed True se l'elemento è stato rimosso, False altrimenti.
 	*/
 	bool remove(const T &obj) {
 		#ifndef NDEBUG
@@ -294,26 +273,26 @@ public:
 	}
 
 	/**
-		Operazione get_objects_amount costante.
-		@return objects_amount Numero elementi del multiset (contando i duplicati).
+	Operazione get_objects_amount costante.
+	@return objects_amount Numero elementi del multiset (contando i duplicati).
 	*/
 	size_type get_objects_amount() const {
 		return objects_amount;
 	}
 
 	/**
-		Operazione get_nodes_amount costante.
-		@return nodes_amount Numero nodi nel multiset (numero di elementi senza contare duplicati).
+	Operazione get_nodes_amount costante.
+	@return nodes_amount Numero nodi nel multiset (numero di elementi senza contare duplicati).
 	*/
 	size_type get_nodes_amount() const {
 		return nodes_amount;
 	}
 
 	/**
-		Overload operazione object_count costante.
-		Conta il numero di occorrenze di un certo elemento costante nel multiset.
-		@param	obj		Elemento costante di cui contare le occorrenze.
-		@return count	Numero di occorrenze.
+	Overload operazione object_count costante.
+	Conta il numero di occorrenze di un certo elemento costante nel multiset.
+	@param	obj		Elemento costante di cui contare le occorrenze.
+	@return count	Numero di occorrenze.
 	*/
 	size_type object_count(const T &obj) const {
 		#ifndef NDEBUG
@@ -333,20 +312,20 @@ public:
 	}
 
 	/**
-		Operazione contains costante.
-		Utilizza la funzione object_count() per il conteggio delle occorrenze di un elemento nel multiset.
-		@param	obj		Elemento di cui controllare la presenza nel multiset.
-		@return bool	True se l'elemento è presente, false altrimenti.
+	Operazione contains costante.
+	Utilizza la funzione object_count() per il conteggio delle occorrenze di un elemento nel multiset.
+	@param	obj		Elemento di cui controllare la presenza nel multiset.
+	@return bool	True se l'elemento è presente, false altrimenti.
 	*/
 	bool contains(const T &obj) const {
 		return object_count(obj) > 0; ///<Se il numero di oggetti nel multiset è meggiore di zero allora l'elemento è presente altrimenti no.
 	}
 
 	/**
-		Operatore "==" di confronto (uguaglianza) costante.
-		Confronta due multiset in base agli elementi da loro contenuti.
-		@param	other	Multiset con cui confrontare this.
-		@return equals	True se i due multiset sono uguali, false altrimenti.
+	Operatore "==" di confronto (uguaglianza) costante.
+	Confronta due multiset in base agli elementi da loro contenuti.
+	@param	other	Multiset con cui confrontare this.
+	@return equals	True se i due multiset sono uguali, false altrimenti.
 	*/
 	bool operator== (const multiset &other) const {
 		#ifndef NDEBUG
@@ -370,10 +349,10 @@ public:
 	}
 
 	/**
-		Operatore "!=" di confronto (disuguaglianza) costante.
-		Confronta due multiset in base agli elementi da loro contenuti.
-		@param	other	Multiset con cui confrontare this.
-		@return bool	True se i due multiset sono diversi, false altrimenti.
+	Operatore "!=" di confronto (disuguaglianza) costante.
+	Confronta due multiset in base agli elementi da loro contenuti.
+	@param	other	Multiset con cui confrontare this.
+	@return bool	True se i due multiset sono diversi, false altrimenti.
 	*/
 	bool operator!= (const multiset &other) const {
 		#ifndef NDEBUG
@@ -383,8 +362,8 @@ public:
 	}
 
 	/**
-		Forward Iterator di sola lettura (costante).
-		Impedisce (come da specifica) la scrittura degli elementi.
+	Forward Iterator di sola lettura (costante).
+	Impedisce (come da specifica) la scrittura degli elementi.
 	*/
 	class const_iterator;
 
@@ -394,10 +373,10 @@ public:
 		const node *curr;			///< Puntatore al nodo corrente.
 		size_type n;				///< Se nel multiset sono presenti più elementi uguali "A" (ovvero S = {A,A,A,X...}), allora n tiene conto del fatto che curr punta all' n-esimo elemento "A". Inizialmente n = 0.
 
-		/**
-			Costruttore privato.
-			@param ptr Puntatore al nodo a cui deve puntare curr.
-		*/
+									/**
+									Costruttore privato.
+									@param ptr Puntatore al nodo a cui deve puntare curr.
+									*/
 		const_iterator(const node *ptr) {
 			curr = ptr;
 			n = 0;
@@ -406,20 +385,20 @@ public:
 	public:
 
 		/**
-			Costruttore di default.
+		Costruttore di default.
 		*/
 		const_iterator() : curr(0), n(0) { }
 
 		/**
-			Copy Constructor.
-			@param other Const_iterator da copiare.
+		Copy Constructor.
+		@param other Const_iterator da copiare.
 		*/
 		const_iterator(const const_iterator &other) : curr(other.curr), n(other.n) { }
 
 		/**
-			Operatore Assegnamento.
-			@param	other	Const_iteratore da cui copiare i dati.
-			@return this	Puntatore all'istanza attuale di const_iterator.
+		Operatore Assegnamento.
+		@param	other	Const_iteratore da cui copiare i dati.
+		@return this	Puntatore all'istanza attuale di const_iterator.
 		*/
 		const_iterator &operator= (const const_iterator &other) {
 			curr = other.curr;
@@ -428,29 +407,29 @@ public:
 		}
 
 		/**
-			Distruttore.
+		Distruttore.
 		*/
 		~const_iterator() { }
 
 		/**
-			Dereferenziamento per reference.
-			@return T Elemento di tipo T a cui punta l'iteratore.
+		Dereferenziamento per reference.
+		@return T Elemento di tipo T a cui punta l'iteratore.
 		*/
 		const T &operator*() const {
 			return curr->object;
 		}
 
 		/**
-			Dereferenziamento per puntatore.
-			@return T Puntatore all'elemento di tipo T a cui punta l'iteratore.
+		Dereferenziamento per puntatore.
+		@return T Puntatore all'elemento di tipo T a cui punta l'iteratore.
 		*/
 		const T * operator->() const {
 			return &(curr->object);
 		}
 
 		/**
-			Operazione "++(int)" di Post-incremento.
-			@return tmp Iteratore all'elemento successivo.
+		Operazione "++(int)" di Post-incremento.
+		@return tmp Iteratore all'elemento successivo.
 		*/
 		const_iterator operator++(int) {
 			const_iterator tmp(*this);
@@ -464,8 +443,8 @@ public:
 		}
 
 		/**
-			Operazione "++" di Pre-incremento.
-			@return tmp Iteratore all'elemento successivo.
+		Operazione "++" di Pre-incremento.
+		@return tmp Iteratore all'elemento successivo.
 		*/
 		const_iterator& operator++() {
 			if (n == curr->amount - 1) {
@@ -478,18 +457,18 @@ public:
 		}
 
 		/**
-			Operatore "==" di confronto (uguaglianza).
-			@param	other	Iteratore da confrontare.
-			@return bool	True se i due iteratori puntano alla stessa posizione, false altrimenti.
+		Operatore "==" di confronto (uguaglianza).
+		@param	other	Iteratore da confrontare.
+		@return bool	True se i due iteratori puntano alla stessa posizione, false altrimenti.
 		*/
 		bool operator==(const const_iterator &other) const {
 			return curr == other.curr && n == other.n;
 		}
 
 		/**
-			Operatore "==" di confronto (disuguaglianza).
-			@param	other	Iteratore da confrontare.
-			@return bool	True se i due iteratori puntano ad una differente posizione, false altrimenti.
+		Operatore "==" di confronto (disuguaglianza).
+		@param	other	Iteratore da confrontare.
+		@return bool	True se i due iteratori puntano ad una differente posizione, false altrimenti.
 		*/
 		bool operator!=(const const_iterator &other) const {
 			return curr != other.curr || n != other.n;
@@ -497,8 +476,8 @@ public:
 	};
 
 	/**
-		Richiesta Iteratore di inizio sequenza.
-		@return const_iterator Iteratore di inizio sequenza.
+	Richiesta Iteratore di inizio sequenza.
+	@return const_iterator Iteratore di inizio sequenza.
 	*/
 	const_iterator begin() const {
 		#ifndef NDEBUG
@@ -508,8 +487,8 @@ public:
 	}
 
 	/**
-		Richiesta Iteratore di fine sequenza.
-		@return const_iterator Iteratore di fine sequenza.
+	Richiesta Iteratore di fine sequenza.
+	@return const_iterator Iteratore di fine sequenza.
 	*/
 	const_iterator end() const {
 		#ifndef NDEBUG
@@ -520,18 +499,18 @@ public:
 };
 
 /**
-	Operatore "<<".
-	Operatore di stream per la stampa in output di un multiset<T> su un std::ostream.
-	@param	os Stream di output su cui scrivere.
-	@param	ms Multiset da stampare su os.
-	@return os Stream di output.
+Operatore "<<".
+Operatore di stream per la stampa in output di un multiset<T> su un std::ostream.
+@param	os Stream di output su cui scrivere.
+@param	ms Multiset da stampare su os.
+@return os Stream di output.
 */
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const multiset<T> &ms) {
 	#ifndef NDEBUG
 	std::cout << "#### &operator<<(std::ostream &os, const multiset<T> &ms)" << std::endl;
 	#endif
-	multiset<T>::const_iterator it = ms.begin();
+	typename multiset<T>::const_iterator it = ms.begin();
 	const T *curr = 0;
 	unsigned int x = 1;
 	os << "{";
