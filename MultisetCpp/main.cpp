@@ -3,7 +3,7 @@
 #include <string>
 
 int main() {
-	
+
 	multiset<int> m_int_1;///< Test Costruttore tipo base.
 	
 	m_int_1.add(2);///< Test Add nuovo elemento di tipo semplice.
@@ -121,16 +121,7 @@ int main() {
 	}
 	std::cout << "}" << std::endl << m_char_1 << std::endl;
 
-	///< Test tipi complessi.
-	/*multiset<int[6]> m_array_int_1;
-	multiset<char[6]> m_array_char_1;
-	multiset<char[6]> m_array_char_2;
-	
-	std::cout << "m_array_char_1 == m_array_char_2 : true -> " << (m_array_char_1 == m_array_char_2) << std::endl;
-	
-	char tmp1[] = "paolo";
-	char tmp2[] = "marco";
-	char tmp3[] = "giuda";*/
+	///< Test tipi complessi (stringhe).
 	multiset<std::string> m_string_1;
 	multiset<std::string> m_string_2;
 	m_string_1.add("luca");
@@ -141,6 +132,7 @@ int main() {
 	m_string_1.add("giovanni");
 	m_string_1.add("giovanni");
 
+	///< Test confronto multiset complessi.
 	std::cout << "m_string_1 != m_string_2 : true -> " << (m_string_1 != m_string_2) << std::endl;
 
 	multiset<std::string> m_string_3(m_string_1);
@@ -167,103 +159,40 @@ int main() {
 	m_string_3.remove("luca");
 
 	std::cout << "m_string_3.get_objects_amount() : 4 -> " << m_string_3.get_objects_amount() << std::endl;
-	/*
-	multiset<int> m3 = multiset<int>();
-	m3.add(3);
-	m3.add(3);
-	m3.add(3);
-	m3.add(4);
-	m3.add(5);
-	m3.add(5);
-	m3.add(6);
-	m3.add(6);
-	m3.add(6);
-	m3.add(6);
-	m3.remove(3);
-	//m2.print();
 
-	//cout << (m1 == m2) << endl;
+	m_string_2 = m_string_1;
 
-	multiset<int>::const_iterator it1 = m3.begin();
-
-	for (; it1 != m3.end(); ++it1) {
-	std::cout << *it1 << std::endl;
+	///< Test iteratori multiset complessi.
+	multiset<std::string>::const_iterator m_string_2_it1 = m_string_2.begin();
+	multiset<std::string>::const_iterator m_string_2_it2(m_string_2_it1);
+	multiset<std::string>::const_iterator m_string_2_it3 = m_string_2_it2;
+	std::cout << "Iteratore1 di m_string_2 : {";
+	for (; m_string_2_it1 != m_string_2.end(); ++m_string_2_it1) {
+		std::cout << " " << *m_string_2_it1 << " ";
 	}
-	std::cout << m3 << std::endl;
-
-	multiset<multiset<int>> mm;
-	mm.add(m1);
-	mm.add(m2);
-	mm.add(m3);
-	//mm.remove(m2);
-	//mm.remove(m2);
-
-	multiset<multiset<int>> mm2(mm);
-	multiset<multiset<int>> mm3 = mm2;
-	//mm3 = mm;
-
-	multiset<int>::const_iterator it2 = m3.begin();
-
-	for (; it2 != m3.end(); ++it2) {
-	std::cout << *it2 << std::endl;
+	std::cout << "}" << std::endl;
+	std::cout << "Iteratore2 di m_string_2 : {";
+	for (; m_string_2_it2 != m_string_2.end(); m_string_2_it2++) {
+		std::cout << " " << *m_string_2_it2 << " ";
 	}
+	std::cout << "}" << std::endl;
+	std::cout << "Iteratore3 di m_string_2 : {";
+	for (; m_string_2_it3 != m_string_2.end(); ++m_string_2_it3) {
+		std::cout << " " << *m_string_2_it3 << " ";
+	}
+	std::cout << "}" << std::endl << m_string_2 << std::endl;
 
-	std::cout << mm << std::endl;
-	std::cout << mm2 << std::endl;
-	std::cout << mm3 << std::endl;
+	///< Test multiset di multiset
+	multiset<multiset<std::string>> mm_string;
+	mm_string.add(m_string_3);
+	mm_string.add(m_string_3);
+	mm_string.add(m_string_2);
+	mm_string.add(m_string_2);
+	mm_string.add(m_string_1);
+	mm_string.add(m_string_1);
 
-	multiset<std::string> mss;
-	mss.add("hi");
-	mss.add("ciao");
-	mss.add("hello");
+	std::cout << mm_string << std::endl;
 
-	multiset<int> m5;
-	m5.add(1);
-	multiset<int> m6;
-	m6 = m5;
-	std::cout << (m6 == m5) << std::endl;
-	std::cout << (m6 != m5) << std::endl;
-	//m6 = m5;
-
-	//std::cout << mss;
-	*/
-	system("pause");
 	return 0;
 }
-
-/*
-	#Test
-
-	Costruttore
-	Copy Constructor
-	Creazione per Assegnamento
-	Add
-	Remove
-	Remove elementi non esistenti
-	Remove multiset vuoto
-	object_count elemento esistente
-	object_count elemento non esistente
-	object_count multiset vuoto
-	contains x3 (== object_count)
-	operatore == {
-	ms == ms
-	ms vuoto == ms
-	ms == ms vuoto
-	ms vuoto == ms vuoto
-	}
-	operatore != x4
-	iteratori {
-	costruttore
-	copy constructor
-	operatore assegnaemento
-	*
-	->
-	++(int)
-	++
-	==
-	!=
-	iterazioni
-	}
-	operazione <<
-*/
 
